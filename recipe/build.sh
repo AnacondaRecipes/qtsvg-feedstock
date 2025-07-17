@@ -2,6 +2,16 @@
 
 set -ex
 
+# OpenGL support
+if [[ "${target_platform}" == osx-* ]]; then
+  CMAKE_ARGS="
+    ${CMAKE_ARGS}
+    -DQT_FORCE_WARN_APPLE_SDK_AND_XCODE_CHECK=ON
+    -DQT_APPLE_SDK_PATH=${CONDA_BUILD_SYSROOT}
+    -DQT_MAC_SDK_VERSION=${OSX_SDK_VER}
+  "
+fi
+
 cmake --log-level STATUS -S"${SRC_DIR}/${PKG_NAME}" -Bbuild -GNinja ${CMAKE_ARGS} \
   -DCMAKE_PREFIX_PATH=${PREFIX} \
   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
