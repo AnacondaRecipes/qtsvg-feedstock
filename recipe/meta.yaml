@@ -6,37 +6,21 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://download.qt.io/official_releases/qt/{{ version.rpartition('.')[0] }}/{{ version }}/submodules/{{ name }}-everywhere-src-{{ version }}.tar.xz
+  - url: https://download.qt.io/archive/qt/{{ version.rpartition('.')[0] }}/{{ version }}/submodules/{{ name }}-everywhere-src-{{ version }}.tar.xz
     sha256: 40142cb71fb1e07ad612bc361b67f5d54cd9367f9979ae6b86124a064deda06b
     folder: {{ name }}
 
 build:
-  number: 0
-  skip: True  # [ppc64le or s390x or (osx and x86_64)]
+  number: 1
+  skip: True  # [osx and x86_64]
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - {{ cdt('libdrm-devel') }}               # [linux]
-    - {{ cdt('libglvnd-glx') }}               # [linux and not x86_64]
-    - {{ cdt('libglvnd-egl') }}               # [linux and not x86_64]
-    - {{ cdt('libice-devel') }}               # [linux]
-    - {{ cdt('libsm-devel') }}                # [linux]
-    - {{ cdt('libx11-devel') }}               # [linux]
-    - {{ cdt('libxau-devel') }}               # [linux]
-    - {{ cdt('mesa-libgl-devel') }}           # [linux]
-    - {{ cdt('mesa-libgbm') }}                # [linux]
-    - {{ cdt('mesa-libegl-devel') }}          # [linux]
-    - {{ cdt('mesa-dri-drivers') }}           # [linux]
-    - {{ cdt('xcb-util-devel') }}             # [linux]
-    - {{ cdt('xcb-util-image-devel') }}       # [linux]
-    - {{ cdt('xcb-util-keysyms-devel') }}     # [linux]
-    - {{ cdt('xcb-util-renderutil-devel') }}  # [linux]
-    - {{ cdt('xcb-util-wm-devel') }}          # [linux]
-    - {{ cdt('xorg-x11-proto-devel') }}       # [linux]
     - pkg-config  # [unix]
     - bison       # [linux]
     - flex        # [linux]
@@ -48,11 +32,9 @@ requirements:
     - cmake
     - ninja
     - perl
-
   host:
-    - qtbase {{ version }}
+    - qtbase-devel {{ version }}
     - zlib
-
   run_constrained:
     - qt-main >={{ version }},<7
     - qt >={{ version }},<7
@@ -62,28 +44,7 @@ test:
     - {{ compiler('cxx') }}
     - cmake
     - ninja
-    - {{ cdt('libdrm-devel') }}               # [linux]
-    - {{ cdt('libglvnd-glx') }}               # [linux and not x86_64]
-    - {{ cdt('libglvnd-egl') }}               # [linux and not x86_64]
-    - {{ cdt('libice-devel') }}               # [linux]
-    - {{ cdt('libsm-devel') }}                # [linux]
-    - {{ cdt('libx11-devel') }}               # [linux]
-    - {{ cdt('libxau-devel') }}               # [linux]
-    - {{ cdt('mesa-libgl-devel') }}           # [linux]
-    - {{ cdt('mesa-libgbm') }}                # [linux]
-    - {{ cdt('mesa-libegl-devel') }}          # [linux]
-    - {{ cdt('mesa-dri-drivers') }}           # [linux]
-    - {{ cdt('xcb-util-devel') }}             # [linux]
-    - {{ cdt('xcb-util-image-devel') }}       # [linux]
-    - {{ cdt('xcb-util-keysyms-devel') }}     # [linux]
-    - {{ cdt('xcb-util-renderutil-devel') }}  # [linux]
-    - {{ cdt('xcb-util-wm-devel') }}          # [linux]
-    - {{ cdt('xorg-x11-proto-devel') }}       # [linux]
-    - {{ cdt('libselinux') }}                 # [linux]
-    - {{ cdt('libxext') }}                    # [linux]
-    - {{ cdt('libxdamage') }}                 # [linux]
-    - {{ cdt('libxfixes') }}                  # [linux]
-    - {{ cdt('libxxf86vm') }}                 # [linux]
+    - qtbase-devel {{ version }}
   files:
     - run_qt_test.sh    # [unix]
     - run_qt_test.bat   # [win]

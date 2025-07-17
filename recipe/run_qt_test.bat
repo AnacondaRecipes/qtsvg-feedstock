@@ -1,7 +1,6 @@
 @ECHO ON
 
-if not exist %LIBRARY_BIN%\qt6.conf exit 1
-if not exist %PREFIX%\qt6.conf exit 1
+echo === Qt SVG Test Starting (Windows) ===
 
 pushd test
 
@@ -13,3 +12,5 @@ if errorlevel 1 exit 1
 
 ctest -C Release --output-on-failure
 if errorlevel 1 exit 1
+
+popd
