@@ -1,5 +1,5 @@
 {% set name = "qtsvg" %}
-{% set version = "6.11.0" %}
+{% set version = "6.12.0" %}
 
 package:
   name: {{ name }}
@@ -7,14 +7,14 @@ package:
 
 source:
   - url: https://download.qt.io/official_releases/qt/{{ version.rpartition('.')[0] }}/{{ version }}/submodules/{{ name }}-everywhere-src-{{ version }}.tar.xz
-    sha256: dfa8d653be07087d9407ed4a4ebae847f8953e0b7abd829f089803ab652a30e6
+    sha256: e4ab39534ec97987b1b9b60ef7f4d3253d5912a69f8c713a01753174a4029331
     folder: {{ name }}
 
 build:
-  number: 2
-  # https://doc.qt.io/qt-6/qt-releases.html#binary-compatibility
+  number: 0
+  # https://anaconda.slack.com/archives/C05BAMC4S04/p1790364214476019?thread_ts=1790360808.879509&cid=C05BAMC4S04
   run_exports:
-    - {{ pin_subpackage(name, max_pin='x.x') }}
+    - {{ pin_subpackage(name, max_pin='x.x.x') }}
 
 requirements:
   build:
